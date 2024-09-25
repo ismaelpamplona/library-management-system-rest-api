@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -41,3 +43,19 @@ class User(db.Model):
 
     def __repr__(self):
         return f"<User {self.username}>"
+
+
+class Borrow(db.Model):
+    __tablename__ = "borrows"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    book_id = db.Column(db.Integer, db.ForeignKey("books.id"), nullable=False)
+    borrow_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    return_date = db.Column(db.DateTime, nullable=True)
+
+    user = db.relationship("User", backref="borrows", lazy=True)
+    book = db.relationship("Book", backref="borrowed_by", lazy=True)
+
+    def __repr__(self):
+        return f"<Borrow user_id={self.user_id}, book_id={self.book_id}, borrow_date={self.borrow_date}, return_date={self.return_date}>"

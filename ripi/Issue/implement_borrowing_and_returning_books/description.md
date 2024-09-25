@@ -1,1 +1,18 @@
 # implement_borrowing_and_returning_books (Issue)
+
+- [x] Set up the Borrow model with SQLAlchemy to track borrowing transactions:
+  - [x] Define the model with relationships to User and Book.
+  - [x] Create migration scripts for the Borrow model using Flask-Migrate.
+- [ ] Implement book borrowing endpoint:
+  - [ ] Write a failing test for borrowing a book.
+  - [ ] Implement the borrowing logic.
+  - [ ] Make the test pass.
+- [ ] Implement book returning endpoint:
+  - [ ] Write a failing test for returning a book.
+  - [ ] Implement the returning logic.
+  - [ ] Make the test pass.
+- [ ] Implement endpoint to view all borrowed books for a user:
+  - [ ] Write a failing test for viewing borrowed books.
+  - [ ] Implement the logic to fetch borrowed books.
+  - [ ] Make the test pass.
+- [ ] Test all borrowing and returning functionalities to ensure they work correctly.
