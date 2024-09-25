@@ -7,10 +7,10 @@
   - [x] Write a failing test for fine calculation upon returning a book.
   - [x] Implement the fine calculation logic based on the number of overdue days.
   - [x] Make the test pass.
-- [ ] Implement endpoint to view outstanding fines for a user:
+- [x] Implement endpoint to view outstanding fines for a user:
   - [x] Write a failing test for viewing outstanding fines.
-  - [ ] Implement the logic to retrieve and display outstanding fines.
-  - [ ] Make the test pass.
+  - [x] Implement the logic to retrieve and display outstanding fines.
+  - [x] Make the test pass.
 - [ ] Implement endpoint to pay fines:
   - [ ] Write a failing test for fine payment.
   - [ ] Implement the fine payment logic.

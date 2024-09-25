@@ -135,3 +135,41 @@ def get_borrowed_books():
         ]
 
         return jsonify({"borrowed_books": books_list}), 200
+
+
+@users_bp.route("/outstanding-fines", methods=["GET"])
+@jwt_required()
+def view_outstanding_fines():
+    current_user_id = get_jwt_identity()
+
+    with Session(db.engine) as session:
+        # Query all outstanding fines for the user
+        outstanding_fines = (
+            session.query(Borrow)
+            .join(Book, Borrow.book_id == Book.id)
+            .filter(Borrow.user_id == current_user_id, Borrow.overdue_fine > 0)
+            .all()
+        )
+
+        total_outstanding_fines = sum(
+            borrow.overdue_fine for borrow in outstanding_fines
+        )
+        fines_list = [
+            {
+                "book_title": borrow.book.title,
+                "fine_amount": borrow.overdue_fine,
+                "borrow_date": borrow.borrow_date,
+                "return_date": borrow.return_date,
+            }
+            for borrow in outstanding_fines
+        ]
+
+        return (
+            jsonify(
+                {
+                    "total_outstanding_fines": total_outstanding_fines,
+                    "fines": fines_list,
+                }
+            ),
+            200,
+        )
