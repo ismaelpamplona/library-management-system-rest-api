@@ -6,8 +6,8 @@
   - [x] Write a failing test for user registration.
   - [x] Implement the registration logic.
   - [x] Make the test pass.
-- [ ] Implement user login endpoint:
+- [x] Implement user login endpoint:
   - [x] Write a failing test for user login.
-  - [ ] Implement the login logic.
-  - [ ] Make the test pass.
-- [ ] Test all user management functionalities to ensure they work correctly.
+  - [x] Implement the login logic.
+  - [x] Make the test pass.
+- [x] Test all user management functionalities to ensure they work correctly.

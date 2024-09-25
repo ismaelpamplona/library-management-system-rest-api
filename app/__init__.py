@@ -2,10 +2,10 @@ from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 
+from app.routes import books_bp, users_bp
 from config.config import Config
 
 from .models import db
-from .routes import books_bp, users_bp
 
 
 def create_app():
