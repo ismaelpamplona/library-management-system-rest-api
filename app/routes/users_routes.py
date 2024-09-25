@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from sqlalchemy.orm import Session
 
-from app.models import User, db
+from app.models import Book, Borrow, User, db
 
 users_bp = Blueprint("users", __name__, url_prefix="/users")
 
@@ -109,3 +109,29 @@ def delete_user_profile():
         session.commit()
 
         return "", 204  # Return a 204 No Content response
+
+
+@users_bp.route("/borrowed-books", methods=["GET"])
+@jwt_required()
+def get_borrowed_books():
+    current_user_id = get_jwt_identity()
+
+    with Session(db.engine) as session:
+        borrowed_books = (
+            session.query(Borrow)
+            .join(Book, Borrow.book_id == Book.id)
+            .filter(Borrow.user_id == current_user_id, Borrow.return_date == None)
+            .all()
+        )
+
+        books_list = [
+            {
+                "book_id": borrow.book.id,
+                "title": borrow.book.title,
+                "author": borrow.book.author,
+                "borrow_date": borrow.borrow_date,
+            }
+            for borrow in borrowed_books
+        ]
+
+        return jsonify({"borrowed_books": books_list}), 200

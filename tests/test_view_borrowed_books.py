@@ -72,7 +72,7 @@ def test_view_borrowed_books(client):
         headers={"Authorization": f"Bearer {client.access_token}"},
     )
     assert response.status_code == 200
-    data = response.get_json()
+    data = response.get_json()["borrowed_books"]
     assert len(data) == 2
     assert data[0]["title"] == "The Pragmatic Programmer"
     assert data[1]["title"] == "Clean Code"
