@@ -22,7 +22,7 @@ def test_user_registration(client):
         "password": "securepassword123",
     }
 
-    response = client.post("/register", json=new_user)
+    response = client.post("/users/register", json=new_user)
 
     assert response.status_code == 201
     data = response.get_json()
@@ -34,6 +34,6 @@ def test_user_registration(client):
     assert "password_hash" not in data
 
     # Test for an already existing email or username
-    response = client.post("/register", json=new_user)
+    response = client.post("/users/register", json=new_user)
     assert response.status_code == 400
     assert "Email or Username already registered" in response.get_json()["error"]

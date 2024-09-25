@@ -24,7 +24,7 @@ def test_user_login(client):
 
     login_data = {"email": "john.doe@example.com", "password": "securepassword123"}
 
-    response = client.post("/login", json=login_data)
+    response = client.post("/users/login", json=login_data)
 
     assert response.status_code == 200
     data = response.get_json()
@@ -32,6 +32,6 @@ def test_user_login(client):
 
     # Test with incorrect credentials
     invalid_login_data = {"email": "john.doe@example.com", "password": "wrongpassword"}
-    response = client.post("/login", json=invalid_login_data)
+    response = client.post("/users/login", json=invalid_login_data)
     assert response.status_code == 401
     assert "Invalid credentials" in response.get_json()["error"]

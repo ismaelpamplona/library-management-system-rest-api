@@ -3,10 +3,10 @@ from sqlalchemy.orm import Session
 
 from app.models import Book, db
 
-books_bp = Blueprint("books", __name__)
+books_bp = Blueprint("books", __name__, url_prefix="/books")
 
 
-@books_bp.route("/books", methods=["POST"])
+@books_bp.route("/", methods=["POST"])
 def create_book():
     data = request.get_json()
 
@@ -40,7 +40,7 @@ def create_book():
     )
 
 
-@books_bp.route("/books", methods=["GET"])
+@books_bp.route("/", methods=["GET"])
 def get_all_books():
     books = Book.query.all()
     return (
@@ -63,7 +63,7 @@ def get_all_books():
     )
 
 
-@books_bp.route("/books/<int:book_id>", methods=["GET"])
+@books_bp.route("/<int:book_id>", methods=["GET"])
 def get_single_book(book_id):
     with Session(db.engine) as session:
         book = session.get(Book, book_id)
@@ -87,7 +87,7 @@ def get_single_book(book_id):
         )
 
 
-@books_bp.route("/books/<int:book_id>", methods=["PUT"])
+@books_bp.route("/<int:book_id>", methods=["PUT"])
 def update_book(book_id):
     with Session(db.engine) as session:
         book = session.get(Book, book_id)
@@ -123,7 +123,7 @@ def update_book(book_id):
         )
 
 
-@books_bp.route("/books/<int:book_id>", methods=["DELETE"])
+@books_bp.route("/<int:book_id>", methods=["DELETE"])
 def delete_book(book_id):
     with Session(db.engine) as session:
         book = session.get(Book, book_id)

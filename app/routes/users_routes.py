@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from sqlalchemy.orm import Session
 
 from app.models import User, db
 
-users_bp = Blueprint("users", __name__)
+users_bp = Blueprint("users", __name__, url_prefix="/users")
 
 
 @users_bp.route("/register", methods=["POST"])
@@ -54,3 +54,19 @@ def login_user():
         access_token = create_access_token(identity=user.id)
 
         return jsonify({"access_token": access_token}), 200
+
+
+@users_bp.route("/profile", methods=["GET"])
+@jwt_required()
+def get_user_profile():
+    current_user_id = get_jwt_identity()
+
+    with Session(db.engine) as session:
+        user = session.get(User, current_user_id)
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+
+        return (
+            jsonify({"id": user.id, "username": user.username, "email": user.email}),
+            200,
+        )

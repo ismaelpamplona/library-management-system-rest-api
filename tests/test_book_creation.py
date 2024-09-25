@@ -27,7 +27,7 @@ def test_create_book(client):
         "language": "English",
     }
 
-    response = client.post("/books", json=new_book)
+    response = client.post("/books/", json=new_book)
 
     assert response.status_code == 201
     assert response.json["title"] == "The Pragmatic Programmer"

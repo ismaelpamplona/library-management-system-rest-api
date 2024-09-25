@@ -41,7 +41,7 @@ def client():
 
 
 def test_get_all_books(client):
-    response = client.get("/books")
+    response = client.get("/books/")
     assert response.status_code == 200
     data = response.get_json()
     assert len(data) == 2
