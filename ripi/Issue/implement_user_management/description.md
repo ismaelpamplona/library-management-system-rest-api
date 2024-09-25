@@ -15,7 +15,7 @@
   - [x] Implement the logic to retrieve user details.
   - [x] Make the test pass.
 - [ ] Implement user update endpoint:
-  - [ ] Write a failing test for updating user details.
+  - [x] Write a failing test for updating user details.
   - [ ] Implement the update logic.
   - [ ] Make the test pass.
 - [ ] Implement user deletion endpoint:
