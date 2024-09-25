@@ -93,3 +93,19 @@ def update_user_profile():
             jsonify({"id": user.id, "username": user.username, "email": user.email}),
             200,
         )
+
+
+@users_bp.route("/profile", methods=["DELETE"])
+@jwt_required()
+def delete_user_profile():
+    current_user_id = get_jwt_identity()
+
+    with Session(db.engine) as session:
+        user = session.get(User, current_user_id)
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+
+        session.delete(user)
+        session.commit()
+
+        return "", 204  # Return a 204 No Content response

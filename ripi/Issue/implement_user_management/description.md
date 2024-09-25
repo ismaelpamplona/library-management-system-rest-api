@@ -18,8 +18,8 @@
   - [x] Write a failing test for updating user details.
   - [x] Implement the update logic.
   - [x] Make the test pass.
-- [ ] Implement user deletion endpoint:
+- [x] Implement user deletion endpoint:
   - [x] Write a failing test for deleting a user account.
-  - [ ] Implement the deletion logic.
-  - [ ] Make the test pass.
-- [ ] Test all new user management functionalities to ensure they work correctly.
+  - [x] Implement the deletion logic.
+  - [x] Make the test pass.
+- [x] Test all new user management functionalities to ensure they work correctly.
