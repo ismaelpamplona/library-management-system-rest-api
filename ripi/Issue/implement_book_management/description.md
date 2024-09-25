@@ -11,7 +11,7 @@
   - [x] Implement the retrieval logic.
   - [x] Make the tests pass.
 - [ ] Implement book updating endpoint:
-  - [ ] Write a failing test for updating a book.
+  - [x] Write a failing test for updating a book.
   - [ ] Implement the update logic.
   - [ ] Make the test pass.
 - [ ] Implement book deletion endpoint:
