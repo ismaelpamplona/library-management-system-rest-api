@@ -20,9 +20,10 @@
     - [x] mypy - For static type checking
 - [x] Add `.gitignore` file for your Python and Poetry-based project.
 - [x] Set up a basic project structure with folders: `app`, `tests`, and `config`.
-- [ ] Create a `compose.yml` to manage PostgreSQL service.
-- [ ] Set up a `.env` file for environment variables.
-- [ ] Configure Flask to read from the `.env` file and create a basic "Hello, World!" route.
+- [x] Create a `compose.yml` to manage PostgreSQL service.
+- [x] Set up a `.env` file for environment variables.
+- [x] Configure Flask to read from the `.env` file and create a basic "Hello, World!" route.
+- [ ]
 - [ ] Test the Docker setup to ensure both the Flask app and PostgreSQL start correctly.
 - [ ] Write a simple test using Pytest to check the "Hello, World!" endpoint.
 - [ ] Make the first successful test pass using TDD.
