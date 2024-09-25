@@ -10,4 +10,16 @@
   - [x] Write a failing test for user login.
   - [x] Implement the login logic.
   - [x] Make the test pass.
-- [x] Test all user management functionalities to ensure they work correctly.
+- [ ] Implement user profile retrieval endpoint:
+  - [x] Write a failing test for retrieving user profile details.
+  - [ ] Implement the logic to retrieve user details.
+  - [ ] Make the test pass.
+- [ ] Implement user update endpoint:
+  - [ ] Write a failing test for updating user details.
+  - [ ] Implement the update logic.
+  - [ ] Make the test pass.
+- [ ] Implement user deletion endpoint:
+  - [ ] Write a failing test for deleting a user account.
+  - [ ] Implement the deletion logic.
+  - [ ] Make the test pass.
+- [ ] Test all new user management functionalities to ensure they work correctly.
