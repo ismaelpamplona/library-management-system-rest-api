@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import create_access_token
 from sqlalchemy.orm import Session
 
 from app.models import Book, User, db
@@ -151,11 +152,9 @@ def register_user():
         if existing_user:
             return jsonify({"error": "Email or Username already registered"}), 400
 
-        # Create a new user instance
         new_user = User(username=data["username"], email=data["email"])
         new_user.set_password(data["password"])  # Hash the password
 
-        # Add and commit the user to the database
         session.add(new_user)
         session.commit()
 
@@ -169,3 +168,20 @@ def register_user():
             ),
             201,
         )
+
+
+@users_bp.route("/login", methods=["POST"])
+def login_user():
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
+
+    with Session(db.engine) as session:
+        user = session.query(User).filter_by(email=email).first()
+        if user is None or not user.check_password(password):
+            return jsonify({"error": "Invalid credentials"}), 401
+
+        # Create an access token using Flask-JWT-Extended
+        access_token = create_access_token(identity=user.id)
+
+        return jsonify({"access_token": access_token}), 200

@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 
 from config.config import Config
@@ -13,6 +14,7 @@ def create_app():
 
     db.init_app(app)
     Migrate(app, db)
+    JWTManager(app)
 
     app.register_blueprint(books_bp)
     app.register_blueprint(users_bp)
