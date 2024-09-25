@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "library-management-system-rest-api"
+version = "0.1.0"
+description = "🐍📚 A Library Management System REST API using Python, Flask, and PostgreSQL. It follows OOP and TDD paradigms, providing features like user management, book handling, and borrowing/returning with 🔑 JWT-based authentication. The system is 🐳 containerized with Docker for easy setup and deployment."
+authors = ["Ismael Pamplona"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Flask = "^3.0.3"
+Flask-RESTful = "^0.3.10"
+SQLAlchemy = "^2.0.35"
+Flask-SQLAlchemy = "^3.1.1"
+Flask-JWT-Extended = "^4.6.0"
+Flask-Migrate = "^4.0.7"
+psycopg2-binary = "^2.9.9"
+marshmallow = "^3.22.0"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.1"
+black = "^24.8.0"
+isort = "^5.13.2"
+pytest-cov = "^5.0.0"
+mypy = "^1.11.2"
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

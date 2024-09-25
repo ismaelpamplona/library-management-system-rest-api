@@ -1,0 +1,60 @@
+# Python specific #
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.eggs/
+*.egg
+*.whl
+*.log
+*.pot
+*.mo
+*.coverage
+
+# Virtual Environments #
+venv/
+.env
+.env.*
+
+# Poetry specific #
+/.pipenv
+/.venv
+
+# Distribution / packaging #
+build/
+dist/
+*.egg-info/
+
+# Docker #
+*.env
+docker-compose.override.yml
+
+# Unit test / coverage reports #
+.coverage
+.tox/
+.pytest_cache/
+.hypothesis/
+
+# Flask specific #
+instance/
+.webassets-cache
+
+# SQLAlchemy #
+migrations/
+
+# IDEs #
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS specific #
+.DS_Store
+*.AppleDouble
+.LSOverride
+
+# Linux specific #
+*~
