@@ -4,7 +4,7 @@
   - [x] Define the model with relationships to User and Book.
   - [x] Create migration scripts for the Borrow model using Flask-Migrate.
 - [ ] Implement book borrowing endpoint:
-  - [ ] Write a failing test for borrowing a book.
+  - [x] Write a failing test for borrowing a book.
   - [ ] Implement the borrowing logic.
   - [ ] Make the test pass.
 - [ ] Implement book returning endpoint:
