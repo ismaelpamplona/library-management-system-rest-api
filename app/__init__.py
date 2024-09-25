@@ -1,17 +1,16 @@
 from flask import Flask
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
+from .models import db
+from config.config import Config
 
 def create_app():
     app = Flask(__name__)
 
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-    app.config['DATABASE_URL'] = os.getenv('DATABASE_URL')
+    app.config.from_object(Config)
+
+    db.init_app(app)
 
     @app.route('/')
     def hello_world():
-        return "Hello, World!"
+        return "<h1>Hello, World!</h1>"
 
     return app

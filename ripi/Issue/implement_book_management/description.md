@@ -1,1 +1,21 @@
 # implement_book_management (Issue)
+
+- [x] Set up the Book model with SQLAlchemy.
+- [ ] Create database migration scripts using Flask-Migrate.
+- [ ] Implement book creation endpoint:
+  - [ ] Write a failing test for book creation.
+  - [ ] Implement the book creation logic.
+  - [ ] Make the test pass.
+- [ ] Implement book retrieval endpoints:
+  - [ ] Write failing tests for retrieving single and multiple books.
+  - [ ] Implement the retrieval logic.
+  - [ ] Make the tests pass.
+- [ ] Implement book updating endpoint:
+  - [ ] Write a failing test for updating a book.
+  - [ ] Implement the update logic.
+  - [ ] Make the test pass.
+- [ ] Implement book deletion endpoint:
+  - [ ] Write a failing test for deleting a book.
+  - [ ] Implement the deletion logic.
+  - [ ] Make the test pass.
+- [ ] Test all book management functionalities to ensure they work correctly.
