@@ -70,3 +70,26 @@ def get_user_profile():
             jsonify({"id": user.id, "username": user.username, "email": user.email}),
             200,
         )
+
+
+@users_bp.route("/profile", methods=["PUT"])
+@jwt_required()
+def update_user_profile():
+    current_user_id = get_jwt_identity()
+    data = request.get_json()
+
+    with Session(db.engine) as session:
+        user = session.get(User, current_user_id)
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+
+        # Update user details
+        user.username = data.get("username", user.username)
+        user.email = data.get("email", user.email)
+
+        session.commit()
+
+        return (
+            jsonify({"id": user.id, "username": user.username, "email": user.email}),
+            200,
+        )
