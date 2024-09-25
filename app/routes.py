@@ -85,3 +85,39 @@ def get_single_book(book_id):
             ),
             200,
         )
+
+
+@books_bp.route("/books/<int:book_id>", methods=["PUT"])
+def update_book(book_id):
+    with Session(db.engine) as session:
+        book = session.get(Book, book_id)
+        if book is None:
+            return jsonify({"error": "Book not found"}), 404
+
+        data = request.get_json()
+
+        book.title = data.get("title", book.title)
+        book.author = data.get("author", book.author)
+        book.published_date = data.get("published_date", book.published_date)
+        book.isbn = data.get("isbn", book.isbn)
+        book.pages = data.get("pages", book.pages)
+        book.cover = data.get("cover", book.cover)
+        book.language = data.get("language", book.language)
+
+        session.commit()
+
+        return (
+            jsonify(
+                {
+                    "id": book.id,
+                    "title": book.title,
+                    "author": book.author,
+                    "published_date": book.published_date,
+                    "isbn": book.isbn,
+                    "pages": book.pages,
+                    "cover": book.cover,
+                    "language": book.language,
+                }
+            ),
+            200,
+        )

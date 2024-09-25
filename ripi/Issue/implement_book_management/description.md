@@ -10,7 +10,7 @@
   - [x] Write failing tests for retrieving single and multiple books.
   - [x] Implement the retrieval logic.
   - [x] Make the tests pass.
-- [ ] Implement book updating endpoint:
+- [x] Implement book updating endpoint:
   - [x] Write a failing test for updating a book.
   - [x] Implement the update logic.
   - [x] Make the test pass.
