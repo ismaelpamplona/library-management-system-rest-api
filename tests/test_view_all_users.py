@@ -41,7 +41,7 @@ def client():
             db.drop_all()
 
 
-def test_view_all_users_as_admin(client):
+def test_view_all_users(client):
     # View all users as an admin
     response = client.get(
         "/admin/users", headers={"Authorization": f"Bearer {client.admin_access_token}"}

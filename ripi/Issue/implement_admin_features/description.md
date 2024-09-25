@@ -5,7 +5,7 @@
   - [x] Implement the logic to retrieve all users.
   - [x] Make the test pass.
 - [ ] Implement endpoint for viewing all borrowed books by all users:
-  - [ ] Write a failing test for viewing all borrowed books.
+  - [x] Write a failing test for viewing all borrowed books.
   - [ ] Implement the logic to retrieve all borrowed books.
   - [ ] Make the test pass.
 - [ ] Implement endpoint for deleting any user's borrow record:
