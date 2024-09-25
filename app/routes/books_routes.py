@@ -8,6 +8,9 @@ from app.models import Book, Borrow, db
 
 books_bp = Blueprint("books", __name__, url_prefix="/books")
 
+FINE_RATE_PER_DAY = 2.0
+BORROWING_PERIOD_DAYS = 7
+
 
 @books_bp.route("/", methods=["POST"])
 def create_book():
@@ -191,6 +194,21 @@ def return_book(book_id):
         if borrow is None:
             return jsonify({"error": "Book is not currently borrowed"}), 400
 
+        # Ensure borrow.borrow_date is timezone-aware
+        if borrow.borrow_date.tzinfo is None:
+            borrow.borrow_date = borrow.borrow_date.replace(tzinfo=timezone.utc)
+
+        # Calculate the number of overdue days
+        borrow_duration = (datetime.now(timezone.utc) - borrow.borrow_date).days
+        overdue_fine = 0.0
+
+        # Adjust fine calculation based on BORROWING_PERIOD_DAYS
+        if borrow_duration > BORROWING_PERIOD_DAYS:
+            overdue_days = borrow_duration - BORROWING_PERIOD_DAYS
+            overdue_fine = overdue_days * FINE_RATE_PER_DAY
+            borrow.overdue_fine = overdue_fine
+
+        # Mark the book as returned
         borrow.return_date = datetime.now(timezone.utc)
         session.commit()
 
@@ -200,6 +218,7 @@ def return_book(book_id):
                     "message": "Book returned successfully",
                     "book_id": borrow.book_id,
                     "return_date": borrow.return_date,
+                    "overdue_fine": overdue_fine,
                 }
             ),
             200,

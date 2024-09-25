@@ -31,8 +31,9 @@ def client():
             db.session.add(test_book)
             db.session.commit()
 
-            # Borrow the book 10 days ago
-            borrow_date = datetime.now(timezone.utc) - timedelta(days=10)
+            # 10 days overdue considering BORROWING_PERIOD_DAYS = 7
+            borrow_date = datetime.now(timezone.utc) - timedelta(days=17)
+
             borrow = Borrow(
                 user_id=test_user.id, book_id=test_book.id, borrow_date=borrow_date
             )
