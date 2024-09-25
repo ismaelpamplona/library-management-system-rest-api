@@ -1,9 +1,10 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy.orm import Session
 
-from app.models import Book, db
+from app.models import Book, User, db
 
 books_bp = Blueprint("books", __name__)
+users_bp = Blueprint("users", __name__)
 
 
 @books_bp.route("/books", methods=["POST"])
@@ -134,3 +135,37 @@ def delete_book(book_id):
         session.commit()
 
         return "", 204  # Return a 204 No Content response
+
+
+@users_bp.route("/register", methods=["POST"])
+def register_user():
+    data = request.get_json()
+
+    # Check if the email or username already exists
+    with Session(db.engine) as session:
+        existing_user = (
+            session.query(User)
+            .filter((User.email == data["email"]) | (User.username == data["username"]))
+            .first()
+        )
+        if existing_user:
+            return jsonify({"error": "Email or Username already registered"}), 400
+
+        # Create a new user instance
+        new_user = User(username=data["username"], email=data["email"])
+        new_user.set_password(data["password"])  # Hash the password
+
+        # Add and commit the user to the database
+        session.add(new_user)
+        session.commit()
+
+        return (
+            jsonify(
+                {
+                    "id": new_user.id,
+                    "username": new_user.username,
+                    "email": new_user.email,
+                }
+            ),
+            201,
+        )

@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from config.config import Config
 
 from .models import db
-from .routes import books_bp
+from .routes import books_bp, users_bp
 
 
 def create_app():
@@ -15,6 +15,7 @@ def create_app():
     Migrate(app, db)
 
     app.register_blueprint(books_bp)
+    app.register_blueprint(users_bp)
 
     @app.route("/", methods=["GET"])
     def greeting():
