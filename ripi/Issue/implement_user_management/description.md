@@ -14,10 +14,10 @@
   - [x] Write a failing test for retrieving user profile details.
   - [x] Implement the logic to retrieve user details.
   - [x] Make the test pass.
-- [ ] Implement user update endpoint:
+- [x] Implement user update endpoint:
   - [x] Write a failing test for updating user details.
-  - [ ] Implement the update logic.
-  - [ ] Make the test pass.
+  - [x] Implement the update logic.
+  - [x] Make the test pass.
 - [ ] Implement user deletion endpoint:
   - [ ] Write a failing test for deleting a user account.
   - [ ] Implement the deletion logic.
