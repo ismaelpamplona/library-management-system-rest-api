@@ -14,8 +14,8 @@
   - [x] Write a failing test for updating a book.
   - [x] Implement the update logic.
   - [x] Make the test pass.
-- [ ] Implement book deletion endpoint:
+- [x] Implement book deletion endpoint:
   - [x] Write a failing test for deleting a book.
-  - [ ] Implement the deletion logic.
-  - [ ] Make the test pass.
+  - [x] Implement the deletion logic.
+  - [x] Make the test pass.
 - [ ] Test all book management functionalities to ensure they work correctly.

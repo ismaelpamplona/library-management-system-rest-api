@@ -121,3 +121,16 @@ def update_book(book_id):
             ),
             200,
         )
+
+
+@books_bp.route("/books/<int:book_id>", methods=["DELETE"])
+def delete_book(book_id):
+    with Session(db.engine) as session:
+        book = session.get(Book, book_id)
+        if book is None:
+            return jsonify({"error": "Book not found"}), 404
+
+        session.delete(book)
+        session.commit()
+
+        return "", 204  # Return a 204 No Content response
