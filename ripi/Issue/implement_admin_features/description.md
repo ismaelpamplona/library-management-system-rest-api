@@ -1,9 +1,9 @@
 # implement_admin_features (Issue)
 
-- [ ] Implement endpoint for viewing all users:
+- [x] Implement endpoint for viewing all users:
   - [x] Write a failing test for viewing all users.
-  - [ ] Implement the logic to retrieve all users.
-  - [ ] Make the test pass.
+  - [x] Implement the logic to retrieve all users.
+  - [x] Make the test pass.
 - [ ] Implement endpoint for viewing all borrowed books by all users:
   - [ ] Write a failing test for viewing all borrowed books.
   - [ ] Implement the logic to retrieve all borrowed books.
