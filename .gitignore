@@ -58,3 +58,7 @@ migrations/
 
 # Linux specific #
 *~
+
+# Helpers
+generate_markdown.sh
+output.md
