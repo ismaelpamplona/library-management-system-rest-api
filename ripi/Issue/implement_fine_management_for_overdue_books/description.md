@@ -12,7 +12,7 @@
   - [x] Implement the logic to retrieve and display outstanding fines.
   - [x] Make the test pass.
 - [ ] Implement endpoint to pay fines:
-  - [ ] Write a failing test for fine payment.
+  - [x] Write a failing test for fine payment.
   - [ ] Implement the fine payment logic.
   - [ ] Make the test pass.
 - [ ] Test all fine management functionalities to ensure they work correctly.
