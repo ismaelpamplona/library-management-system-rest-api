@@ -1,10 +1,25 @@
 # implement_environment_setup (Issue)
 
-- [x] Create a new Python virtual environment and activate it.
+- [x] Create a new Python virtual environment with poetry and activate it.
+- [x] Install all the dependencies needed:
+  - [x] Main Dependencies
+    - [x] Flask
+    - [x] Flask-RESTful
+    - [x] SQLAlchemy
+    - [x] Flask-SQLAlchemy
+    - [x] Flask-JWT-Extended
+    - [x] Flask-Migrate
+    - [x] psycopg2-binary
+    - [x] Marshmallow
+  - [x] Development Dependencies
+    - [x] Pytest - For testing
+    - [x] Flake8 - For code linting
+    - [x] Black - For code formatting
+    - [x] isort - For sorting imports
+    - [x] pytest-cov - For test coverage reports
+    - [x] mypy - For static type checking
 - [x] Add `.gitignore` file for your Python and Poetry-based project.
-- [ ] Initialize a Git repository and make the first commit.
-- [ ] Set up a basic project structure with folders: `app`, `tests`, and `config`.
-- [ ] Install Flask and add it to `requirements.txt`.
+- [x] Set up a basic project structure with folders: `app`, `tests`, and `config`.
 - [ ] Set up Docker with a Dockerfile for the Flask app.
 - [ ] Create a `docker-compose.yml` to manage PostgreSQL and Flask services.
 - [ ] Set up a `.env` file for environment variables.
