@@ -10,10 +10,10 @@
   - [x] Write a failing test for user login.
   - [x] Implement the login logic.
   - [x] Make the test pass.
-- [ ] Implement user profile retrieval endpoint:
+- [x] Implement user profile retrieval endpoint:
   - [x] Write a failing test for retrieving user profile details.
-  - [ ] Implement the logic to retrieve user details.
-  - [ ] Make the test pass.
+  - [x] Implement the logic to retrieve user details.
+  - [x] Make the test pass.
 - [ ] Implement user update endpoint:
   - [ ] Write a failing test for updating user details.
   - [ ] Implement the update logic.
