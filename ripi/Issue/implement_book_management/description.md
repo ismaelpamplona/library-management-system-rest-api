@@ -6,10 +6,10 @@
   - [x] Write a failing test for book creation.
   - [x] Implement the book creation logic.
   - [x] Make the test pass.
-- [ ] Implement book retrieval endpoints:
-  - [ ] Write failing tests for retrieving single and multiple books.
-  - [ ] Implement the retrieval logic.
-  - [ ] Make the tests pass.
+- [x] Implement book retrieval endpoints:
+  - [x] Write failing tests for retrieving single and multiple books.
+  - [x] Implement the retrieval logic.
+  - [x] Make the tests pass.
 - [ ] Implement book updating endpoint:
   - [ ] Write a failing test for updating a book.
   - [ ] Implement the update logic.
