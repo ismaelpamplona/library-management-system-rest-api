@@ -1,8 +1,10 @@
+from datetime import datetime, timezone
+
 import pytest
 from flask_jwt_extended import create_access_token
 
 from app import create_app, db
-from app.models import Book, User
+from app.models import Book, Borrow, User
 
 
 @pytest.fixture
@@ -30,6 +32,14 @@ def client():
 
             db.session.commit()
 
+            borrow = Borrow(
+                user_id=test_user.id,
+                book_id=test_book.id,
+                borrow_date=datetime.now(timezone.utc),
+            )
+            db.session.add(borrow)
+            db.session.commit()
+
             access_token = create_access_token(identity=test_user.id)
             client.access_token = access_token
 
@@ -39,25 +49,24 @@ def client():
             db.drop_all()
 
 
-def test_borrow_book(client):
+def test_return_book(client):
 
-    # Borrow the test book using the authenticated user
+    # Return the borrowed book using the authenticated user
     response = client.post(
-        "/books/1/borrow", headers={"Authorization": f"Bearer {client.access_token}"}
+        "/books/1/return", headers={"Authorization": f"Bearer {client.access_token}"}
     )
     assert response.status_code == 200
     data = response.get_json()
-    assert data["message"] == "Book borrowed successfully"
+    assert data["message"] == "Book returned successfully"
     assert data["book_id"] == 1
-    assert data["user_id"] is not None
 
-    # Test borrowing the same book again, which should not be allowed
+    # Test returning a book that's not currently borrowed
     response = client.post(
-        "/books/1/borrow", headers={"Authorization": f"Bearer {client.access_token}"}
+        "/books/1/return", headers={"Authorization": f"Bearer {client.access_token}"}
     )
     assert response.status_code == 400
-    assert "Book is already borrowed" in response.get_json()["error"]
+    assert "Book is not currently borrowed" in response.get_json()["error"]
 
-    # Test borrowing without authorization
-    response = client.post("/books/1/borrow")
-    assert response.status_code == 401  # Unauthorized
+    # Test returning a book without authorization
+    response = client.post("/books/1/return")
+    assert response.status_code == 401
