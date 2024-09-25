@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from sqlalchemy.orm import Session
@@ -165,6 +167,39 @@ def borrow_book(book_id):
                     "book_id": new_borrow.book_id,
                     "user_id": new_borrow.user_id,
                     "borrow_date": new_borrow.borrow_date,
+                }
+            ),
+            200,
+        )
+
+
+@books_bp.route("/<int:book_id>/return", methods=["POST"])
+@jwt_required()
+def return_book(book_id):
+    current_user_id = get_jwt_identity()
+
+    with Session(db.engine) as session:
+        book = session.get(Book, book_id)
+        if book is None:
+            return jsonify({"error": "Book not found"}), 404
+
+        borrow = (
+            session.query(Borrow)
+            .filter_by(book_id=book_id, user_id=current_user_id, return_date=None)
+            .first()
+        )
+        if borrow is None:
+            return jsonify({"error": "Book is not currently borrowed"}), 400
+
+        borrow.return_date = datetime.now(timezone.utc)
+        session.commit()
+
+        return (
+            jsonify(
+                {
+                    "message": "Book returned successfully",
+                    "book_id": borrow.book_id,
+                    "return_date": borrow.return_date,
                 }
             ),
             200,

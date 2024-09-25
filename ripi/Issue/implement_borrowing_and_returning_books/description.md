@@ -7,10 +7,10 @@
   - [x] Write a failing test for borrowing a book.
   - [x] Implement the borrowing logic.
   - [x] Make the test pass.
-- [ ] Implement book returning endpoint:
+- [x] Implement book returning endpoint:
   - [x] Write a failing test for returning a book.
-  - [ ] Implement the returning logic.
-  - [ ] Make the test pass.
+  - [x] Implement the returning logic.
+  - [x] Make the test pass.
 - [ ] Implement endpoint to view all borrowed books for a user:
   - [ ] Write a failing test for viewing borrowed books.
   - [ ] Implement the logic to fetch borrowed books.
