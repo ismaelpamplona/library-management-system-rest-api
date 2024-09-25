@@ -8,7 +8,7 @@
   - [x] Implement the fine calculation logic based on the number of overdue days.
   - [x] Make the test pass.
 - [ ] Implement endpoint to view outstanding fines for a user:
-  - [ ] Write a failing test for viewing outstanding fines.
+  - [x] Write a failing test for viewing outstanding fines.
   - [ ] Implement the logic to retrieve and display outstanding fines.
   - [ ] Make the test pass.
 - [ ] Implement endpoint to pay fines:
