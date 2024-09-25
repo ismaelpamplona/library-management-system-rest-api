@@ -173,3 +173,44 @@ def view_outstanding_fines():
             ),
             200,
         )
+
+
+@users_bp.route("/pay-fine", methods=["POST"])
+@jwt_required()
+def pay_fine():
+    current_user_id = get_jwt_identity()
+    data = request.get_json()
+    book_id = data.get("book_id")
+
+    if not book_id:
+        return jsonify({"error": "Book ID is required"}), 400
+
+    with Session(db.engine) as session:
+        # Find the borrow record for this user and book
+        borrow_record = (
+            session.query(Borrow)
+            .filter_by(user_id=current_user_id, book_id=book_id)
+            .first()
+        )
+
+        if borrow_record is None:
+            return jsonify({"error": "Borrow record not found"}), 404
+
+        if borrow_record.overdue_fine == 0.0:
+            return jsonify({"error": "No outstanding fine for this book"}), 400
+
+        # Mark the fine as paid
+        paid_amount = borrow_record.overdue_fine
+        borrow_record.overdue_fine = 0.0
+        session.commit()
+
+        return (
+            jsonify(
+                {
+                    "message": "Fine paid successfully",
+                    "book_id": book_id,
+                    "paid_amount": paid_amount,
+                }
+            ),
+            200,
+        )
