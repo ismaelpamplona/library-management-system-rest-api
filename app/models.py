@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -51,7 +51,9 @@ class Borrow(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey("books.id"), nullable=False)
-    borrow_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    borrow_date = db.Column(
+        db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False
+    )
     return_date = db.Column(db.DateTime, nullable=True)
 
     user = db.relationship("User", backref="borrows", lazy=True)

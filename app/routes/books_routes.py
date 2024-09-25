@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from sqlalchemy.orm import Session
 
-from app.models import Book, db
+from app.models import Book, Borrow, db
 
 books_bp = Blueprint("books", __name__, url_prefix="/books")
 
@@ -134,3 +135,37 @@ def delete_book(book_id):
         session.commit()
 
         return "", 204  # Return a 204 No Content response
+
+
+@books_bp.route("/<int:book_id>/borrow", methods=["POST"])
+@jwt_required()
+def borrow_book(book_id):
+    current_user_id = get_jwt_identity()
+
+    with Session(db.engine) as session:
+
+        book = session.get(Book, book_id)
+        if book is None:
+            return jsonify({"error": "Book not found"}), 404
+
+        existing_borrow = (
+            session.query(Borrow).filter_by(book_id=book_id, return_date=None).first()
+        )
+        if existing_borrow:
+            return jsonify({"error": "Book is already borrowed"}), 400
+
+        new_borrow = Borrow(user_id=current_user_id, book_id=book_id)
+        session.add(new_borrow)
+        session.commit()
+
+        return (
+            jsonify(
+                {
+                    "message": "Book borrowed successfully",
+                    "book_id": new_borrow.book_id,
+                    "user_id": new_borrow.user_id,
+                    "borrow_date": new_borrow.borrow_date,
+                }
+            ),
+            200,
+        )
