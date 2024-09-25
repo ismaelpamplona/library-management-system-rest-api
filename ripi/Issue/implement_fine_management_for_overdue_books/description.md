@@ -4,7 +4,7 @@
   - [x] Add an `overdue_fine` column to the `Borrow` model.
   - [x] Create migration scripts for the fine-related changes using Flask-Migrate.
 - [ ] Implement logic to calculate overdue fines:
-  - [ ] Write a failing test for fine calculation upon returning a book.
+  - [x] Write a failing test for fine calculation upon returning a book.
   - [ ] Implement the fine calculation logic based on the number of overdue days.
   - [ ] Make the test pass.
 - [ ] Implement endpoint to view outstanding fines for a user:
