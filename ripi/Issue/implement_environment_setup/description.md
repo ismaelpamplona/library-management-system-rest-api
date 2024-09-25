@@ -25,6 +25,20 @@
 - [x] Configure Flask to read from the `.env` file and create a basic "Hello, World!" route.
 - [x] Set up Docker with a `Dockerfile.dev` for the Flask app.
 - [x] Create a `compose.yml` to manage Flask service.
-- [ ] Test the Docker setup to ensure both the Flask app and PostgreSQL start correctly.
-- [ ] Write a simple test using Pytest to check the "Hello, World!" endpoint.
-- [ ] Make the first successful test pass using TDD.
+- [x] Test the Docker setup to ensure both the Flask app and PostgreSQL start correctly.
+- [x] Write a simple test using Pytest to check the "Hello, World!" endpoint.
+- [x] Make the first successful test pass using TDD.
+
+```bash
+$ docker compose -f compose.dev.yml exec flask_app poetry run pytest
+================================ test session starts =================================
+platform linux -- Python 3.12.6, pytest-8.3.3, pluggy-1.5.0
+rootdir: /usr/src/app
+configfile: pyproject.toml
+plugins: cov-5.0.0
+collected 1 item
+
+tests/test_hello_world.py .                                                    [100%]
+
+================================= 1 passed in 0.14s ==================================
+```
