@@ -1,9 +1,9 @@
 # implement_user_management (Issue)
 
 - [x] Set up the User model with SQLAlchemy.
-- [ ] Create database migration scripts for the User model using Flask-Migrate.
+- [x] Create database migration scripts for the User model using Flask-Migrate.
 - [ ] Implement user registration endpoint:
-  - [ ] Write a failing test for user registration.
+  - [x] Write a failing test for user registration.
   - [ ] Implement the registration logic.
   - [ ] Make the test pass.
 - [ ] Implement user login endpoint:
