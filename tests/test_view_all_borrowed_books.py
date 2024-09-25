@@ -1,5 +1,4 @@
-# tests/test_view_all_borrowed_books.py
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import pytest
 from flask_jwt_extended import create_access_token
@@ -14,6 +13,8 @@ def client():
     app.config["TESTING"] = True
     with app.test_client() as client:
         with app.app_context():
+            db.session.remove()
+            db.drop_all()
             db.create_all()
 
             # Create a test admin user
@@ -82,6 +83,7 @@ def client():
         yield client
 
         with app.app_context():
+            db.session.remove()
             db.drop_all()
 
 

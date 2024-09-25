@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from sqlalchemy.orm import Session
 
-from app.models import User, db
+from app.models import Book, Borrow, User, db
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -30,3 +30,39 @@ def view_all_users():
         ]
 
         return jsonify({"users": users_list}), 200
+
+
+@admin_bp.route("/borrowed-books", methods=["GET"])
+@jwt_required()
+def view_all_borrowed_books():
+    current_user_id = get_jwt_identity()
+
+    with Session(db.engine) as session:
+        # Check if the current user is an admin
+        current_user = session.get(User, current_user_id)
+        if not current_user or not getattr(current_user, "is_admin", False):
+            return jsonify({"error": "Access forbidden: Admins only"}), 403
+
+        # Retrieve all borrowed books
+        borrowed_books = (
+            session.query(Borrow)
+            .join(Book, Borrow.book_id == Book.id)
+            .join(User, Borrow.user_id == User.id)
+            .all()
+        )
+
+        borrowed_books_list = [
+            {
+                "borrow_id": borrow.id,
+                "user_id": borrow.user_id,
+                "username": borrow.user.username,
+                "book_id": borrow.book_id,
+                "book_title": borrow.book.title,
+                "borrow_date": borrow.borrow_date,
+                "return_date": borrow.return_date,
+                "overdue_fine": borrow.overdue_fine,
+            }
+            for borrow in borrowed_books
+        ]
+
+        return jsonify({"borrowed_books": borrowed_books_list}), 200

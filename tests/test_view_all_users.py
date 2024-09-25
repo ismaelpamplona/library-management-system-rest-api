@@ -11,6 +11,8 @@ def client():
     app.config["TESTING"] = True
     with app.test_client() as client:
         with app.app_context():
+            db.session.remove()
+            db.drop_all()
             db.create_all()
 
             admin_user = User(
@@ -38,6 +40,7 @@ def client():
         yield client
 
         with app.app_context():
+            db.session.remove()
             db.drop_all()
 
 

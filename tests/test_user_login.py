@@ -10,13 +10,17 @@ def client():
     app.config["TESTING"] = True
     with app.test_client() as client:
         with app.app_context():
+            db.session.remove()
+            db.drop_all()
             db.create_all()
+
             test_user = User(username="john_doe", email="john.doe@example.com")
             test_user.set_password("securepassword123")
             db.session.add(test_user)
             db.session.commit()
         yield client
         with app.app_context():
+            db.session.remove()
             db.drop_all()
 
 
