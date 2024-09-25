@@ -12,7 +12,7 @@
   - [x] Implement the returning logic.
   - [x] Make the test pass.
 - [ ] Implement endpoint to view all borrowed books for a user:
-  - [ ] Write a failing test for viewing borrowed books.
+  - [x] Write a failing test for viewing borrowed books.
   - [ ] Implement the logic to fetch borrowed books.
   - [ ] Make the test pass.
 - [ ] Test all borrowing and returning functionalities to ensure they work correctly.
