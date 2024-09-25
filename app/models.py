@@ -55,9 +55,10 @@ class Borrow(db.Model):
         db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False
     )
     return_date = db.Column(db.DateTime, nullable=True)
+    overdue_fine = db.Column(db.Float, default=0.0)
 
     user = db.relationship("User", backref="borrows", lazy=True)
     book = db.relationship("Book", backref="borrowed_by", lazy=True)
 
     def __repr__(self):
-        return f"<Borrow user_id={self.user_id}, book_id={self.book_id}, borrow_date={self.borrow_date}, return_date={self.return_date}>"
+        return f"<Borrow user_id={self.user_id}, book_id={self.book_id}, borrow_date={self.borrow_date}, return_date={self.return_date}, overdue_fine={self.overdue_fine}>"
