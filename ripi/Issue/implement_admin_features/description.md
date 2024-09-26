@@ -13,7 +13,7 @@
   - [x] Implement the deletion logic.
   - [x] Make the test pass.
 - [ ] Implement admin authentication and authorization checks:
-  - [ ] Write a failing test to ensure only admins can access admin endpoints.
+  - [x] Write a failing test to ensure only admins can access admin endpoints.
   - [ ] Implement the admin role check logic.
   - [ ] Make the test pass.
 - [ ] Test all admin functionalities to ensure they work correctly.
