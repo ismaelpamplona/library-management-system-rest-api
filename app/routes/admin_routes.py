@@ -66,3 +66,25 @@ def view_all_borrowed_books():
         ]
 
         return jsonify({"borrowed_books": borrowed_books_list}), 200
+
+
+@admin_bp.route("/borrow/<int:borrow_id>", methods=["DELETE"])
+@jwt_required()
+def delete_borrow_record(borrow_id):
+    current_user_id = get_jwt_identity()
+
+    with Session(db.engine) as session:
+        current_user = session.get(User, current_user_id)
+
+        if not current_user or not getattr(current_user, "is_admin", False):
+            return jsonify({"error": "Forbidden: Admins only"}), 403
+
+        borrow_record = session.get(Borrow, borrow_id)
+
+        if not borrow_record:
+            return jsonify({"error": "Borrow record not found"}), 404
+
+        session.delete(borrow_record)
+        session.commit()
+
+    return "", 204  # No content

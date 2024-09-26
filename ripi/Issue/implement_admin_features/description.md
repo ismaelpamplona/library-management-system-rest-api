@@ -8,10 +8,10 @@
   - [x] Write a failing test for viewing all borrowed books.
   - [x] Implement the logic to retrieve all borrowed books.
   - [x] Make the test pass.
-- [ ] Implement endpoint for deleting any user's borrow record:
-  - [ ] Write a failing test for deleting a user's borrow record.
-  - [ ] Implement the deletion logic.
-  - [ ] Make the test pass.
+- [x] Implement endpoint for deleting any user's borrow record:
+  - [x] Write a failing test for deleting a user's borrow record.
+  - [x] Implement the deletion logic.
+  - [x] Make the test pass.
 - [ ] Implement admin authentication and authorization checks:
   - [ ] Write a failing test to ensure only admins can access admin endpoints.
   - [ ] Implement the admin role check logic.
