@@ -5,6 +5,6 @@
 - [x] Integrate Swagger with your Flask app.
 - [x] Define your API endpoints swagger annotations admin endpoints.
 - [x] Define your API endpoints swagger annotations books endpoints.
-- [ ] Define your API endpoints swagger annotations users endpoints.
+- [x] Define your API endpoints swagger annotations users endpoints.
 - [ ] Write tests to verify the Swagger documentation.
 - [ ] Update the README with instructions on accessing the Swagger documentation.

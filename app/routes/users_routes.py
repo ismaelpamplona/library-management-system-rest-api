@@ -9,6 +9,38 @@ users_bp = Blueprint("users", __name__, url_prefix="/users")
 
 @users_bp.route("/register", methods=["POST"])
 def register_user():
+    """
+    Register a new user
+    ---
+    tags:
+      - Users
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+            required:
+              - username
+              - email
+              - password
+    responses:
+      201:
+        description: User registered successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      400:
+        description: "Email or Username already registered"
+    """
     data = request.get_json()
 
     # Check if the email or username already exists
@@ -41,6 +73,38 @@ def register_user():
 
 @users_bp.route("/login", methods=["POST"])
 def login_user():
+    """
+    User login
+    ---
+    tags:
+      - Users
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+            required:
+              - email
+              - password
+    responses:
+      200:
+        description: User logged in successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                access_token:
+                  type: string
+      401:
+        description: Invalid credentials
+    """
     data = request.get_json()
     email = data.get("email")
     password = data.get("password")
@@ -59,6 +123,23 @@ def login_user():
 @users_bp.route("/profile", methods=["GET"])
 @jwt_required()
 def get_user_profile():
+    """
+    Get user profile
+    ---
+    tags:
+      - Users
+    security:
+      - BearerAuth: []
+    responses:
+      200:
+        description: User profile retrieved successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      404:
+        description: User not found
+    """
     current_user_id = get_jwt_identity()
 
     with Session(db.engine) as session:
@@ -75,6 +156,34 @@ def get_user_profile():
 @users_bp.route("/profile", methods=["PUT"])
 @jwt_required()
 def update_user_profile():
+    """
+    Update user profile
+    ---
+    tags:
+      - Users
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              email:
+                type: string
+    responses:
+      200:
+        description: User profile updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      404:
+        description: User not found
+    """
     current_user_id = get_jwt_identity()
     data = request.get_json()
 
@@ -98,6 +207,19 @@ def update_user_profile():
 @users_bp.route("/profile", methods=["DELETE"])
 @jwt_required()
 def delete_user_profile():
+    """
+    Delete user profile
+    ---
+    tags:
+      - Users
+    security:
+      - BearerAuth: []
+    responses:
+      204:
+        description: User profile deleted successfully
+      404:
+        description: User not found
+    """
     current_user_id = get_jwt_identity()
 
     with Session(db.engine) as session:
@@ -114,6 +236,23 @@ def delete_user_profile():
 @users_bp.route("/borrowed-books", methods=["GET"])
 @jwt_required()
 def get_borrowed_books():
+    """
+    Get all borrowed books by the user
+    ---
+    tags:
+      - Users
+    security:
+      - BearerAuth: []
+    responses:
+      200:
+        description: List of borrowed books
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/BorrowedBook'
+    """
     current_user_id = get_jwt_identity()
 
     with Session(db.engine) as session:
@@ -140,6 +279,28 @@ def get_borrowed_books():
 @users_bp.route("/outstanding-fines", methods=["GET"])
 @jwt_required()
 def view_outstanding_fines():
+    """
+    View all outstanding fines for the user
+    ---
+    tags:
+      - Users
+    security:
+      - BearerAuth: []
+    responses:
+      200:
+        description: List of outstanding fines
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                total_outstanding_fines:
+                  type: number
+                fines:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Fine'
+    """
     current_user_id = get_jwt_identity()
 
     with Session(db.engine) as session:
@@ -178,6 +339,32 @@ def view_outstanding_fines():
 @users_bp.route("/pay-fine", methods=["POST"])
 @jwt_required()
 def pay_fine():
+    """
+    Pay outstanding fine for a specific book
+    ---
+    tags:
+      - Users
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              book_id:
+                type: integer
+            required:
+              - book_id
+    responses:
+      200:
+        description: Fine paid successfully
+      404:
+        description: Borrow record not found
+      400:
+        description: No outstanding fine for this book
+    """
     current_user_id = get_jwt_identity()
     data = request.get_json()
     book_id = data.get("book_id")
