@@ -17,6 +17,7 @@ Flask-Migrate = "^4.0.7"
 psycopg2-binary = "^2.9.9"
 marshmallow = "^3.22.0"
 python-dotenv = "^1.0.1"
+flasgger = "^0.9.7.1"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^7.1.1"

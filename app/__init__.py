@@ -1,3 +1,4 @@
+from flasgger import Swagger
 from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
@@ -6,6 +7,8 @@ from app.routes import admin_bp, books_bp, users_bp
 from config.config import Config
 
 from .models import db
+
+swagger = Swagger()
 
 
 def create_app():
@@ -19,6 +22,8 @@ def create_app():
     app.register_blueprint(books_bp)
     app.register_blueprint(users_bp)
     app.register_blueprint(admin_bp)
+
+    swagger.init_app(app)
 
     @app.route("/", methods=["GET"])
     def greeting():

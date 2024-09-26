@@ -1,4 +1,4 @@
-from functools import wraps  # Import wraps from functools
+from functools import wraps
 
 from flask import Blueprint, jsonify
 from flask_jwt_extended import get_jwt_identity, jwt_required
@@ -31,6 +31,37 @@ def admin_required(fn):
 @admin_bp.route("/users", methods=["GET"])
 @admin_required
 def view_all_users():
+    """
+    Get all users
+    ---
+    tags:
+      - Admin
+    security:
+      - BearerAuth: []
+    responses:
+      200:
+        description: List of all users
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      username:
+                        type: string
+                      email:
+                        type: string
+                      is_admin:
+                        type: boolean
+      403:
+        description: "Access forbidden: Admins only"
+    """
     with Session(db.engine) as session:
         # Retrieve all users
         all_users = session.query(User).all()
@@ -50,6 +81,47 @@ def view_all_users():
 @admin_bp.route("/borrowed-books", methods=["GET"])
 @admin_required
 def view_all_borrowed_books():
+    """
+    Get all borrowed books
+    ---
+    tags:
+      - Admin
+    security:
+      - BearerAuth: []
+    responses:
+      200:
+        description: List of all borrowed books
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                borrowed_books:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      borrow_id:
+                        type: integer
+                      user_id:
+                        type: integer
+                      username:
+                        type: string
+                      book_id:
+                        type: integer
+                      book_title:
+                        type: string
+                      borrow_date:
+                        type: string
+                        format: date
+                      return_date:
+                        type: string
+                        format: date
+                      overdue_fine:
+                        type: number
+      403:
+        description: "Access forbidden: Admins only"
+    """
     with Session(db.engine) as session:
         # Retrieve all borrowed books
         borrowed_books = (
@@ -79,6 +151,28 @@ def view_all_borrowed_books():
 @admin_bp.route("/borrow/<int:borrow_id>", methods=["DELETE"])
 @admin_required
 def delete_borrow_record(borrow_id):
+    """
+    Delete a borrow record
+    ---
+    tags:
+      - Admin
+    security:
+      - BearerAuth: []
+    parameters:
+      - name: borrow_id
+        in: path
+        required: true
+        description: The ID of the borrow record to delete
+        schema:
+          type: integer
+    responses:
+      204:
+        description: Borrow record deleted successfully
+      404:
+        description: "Borrow record not found"
+      403:
+        description: "Access forbidden: Admins only"
+    """
     with Session(db.engine) as session:
         borrow_record = session.get(Borrow, borrow_id)
 
