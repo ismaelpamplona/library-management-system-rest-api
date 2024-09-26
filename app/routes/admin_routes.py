@@ -1,3 +1,5 @@
+from functools import wraps  # Import wraps from functools
+
 from flask import Blueprint, jsonify
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from sqlalchemy.orm import Session
@@ -7,16 +9,29 @@ from app.models import Book, Borrow, User, db
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
 
+def admin_required(fn):
+    """Decorator to ensure the user is an admin"""
+
+    @wraps(fn)  # This preserves the original function's identity
+    @jwt_required()
+    def wrapper(*args, **kwargs):
+        current_user_id = get_jwt_identity()
+
+        with Session(db.engine) as session:
+            current_user = session.get(User, current_user_id)
+
+            if not current_user or not getattr(current_user, "is_admin", False):
+                return jsonify({"error": "Forbidden: Admins only"}), 403
+
+            return fn(*args, **kwargs)
+
+    return wrapper
+
+
 @admin_bp.route("/users", methods=["GET"])
-@jwt_required()
+@admin_required
 def view_all_users():
-    current_user_id = get_jwt_identity()
-
     with Session(db.engine) as session:
-        current_user = session.get(User, current_user_id)
-        if not current_user or not getattr(current_user, "is_admin", False):
-            return jsonify({"error": "Access forbidden: Admins only"}), 403
-
         # Retrieve all users
         all_users = session.query(User).all()
         users_list = [
@@ -33,16 +48,9 @@ def view_all_users():
 
 
 @admin_bp.route("/borrowed-books", methods=["GET"])
-@jwt_required()
+@admin_required
 def view_all_borrowed_books():
-    current_user_id = get_jwt_identity()
-
     with Session(db.engine) as session:
-        # Check if the current user is an admin
-        current_user = session.get(User, current_user_id)
-        if not current_user or not getattr(current_user, "is_admin", False):
-            return jsonify({"error": "Access forbidden: Admins only"}), 403
-
         # Retrieve all borrowed books
         borrowed_books = (
             session.query(Borrow)
@@ -69,16 +77,9 @@ def view_all_borrowed_books():
 
 
 @admin_bp.route("/borrow/<int:borrow_id>", methods=["DELETE"])
-@jwt_required()
+@admin_required
 def delete_borrow_record(borrow_id):
-    current_user_id = get_jwt_identity()
-
     with Session(db.engine) as session:
-        current_user = session.get(User, current_user_id)
-
-        if not current_user or not getattr(current_user, "is_admin", False):
-            return jsonify({"error": "Forbidden: Admins only"}), 403
-
         borrow_record = session.get(Borrow, borrow_id)
 
         if not borrow_record:
