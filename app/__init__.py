@@ -8,7 +8,7 @@ from config.config import Config
 
 from .models import db
 
-swagger = Swagger()
+swagger = Swagger(template_file="../config/swagger.yml")
 
 
 def create_app():
@@ -23,6 +23,7 @@ def create_app():
     app.register_blueprint(users_bp)
     app.register_blueprint(admin_bp)
 
+    # Initialize Swagger
     swagger.init_app(app)
 
     @app.route("/", methods=["GET"])

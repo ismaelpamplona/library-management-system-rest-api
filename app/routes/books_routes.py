@@ -14,45 +14,6 @@ BORROWING_PERIOD_DAYS = 7
 
 @books_bp.route("/", methods=["POST"])
 def create_book():
-    """
-    Create a new book
-    ---
-    tags:
-      - Books
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              title:
-                type: string
-              author:
-                type: string
-              published_date:
-                type: string
-                format: date
-              isbn:
-                type: string
-              pages:
-                type: integer
-              cover:
-                type: string
-              language:
-                type: string
-            required:
-              - title
-              - author
-              - language
-    responses:
-      201:
-        description: Book created successfully
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Book'
-    """
     data = request.get_json()
 
     new_book = Book(
@@ -87,66 +48,34 @@ def create_book():
 
 @books_bp.route("/", methods=["GET"])
 def get_all_books():
-    """
-    Get a list of all books
-    ---
-    tags:
-      - Books
-    responses:
-      200:
-        description: A list of books
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Book'
-    """
-    books = Book.query.all()
-    return (
-        jsonify(
-            [
-                {
-                    "id": book.id,
-                    "title": book.title,
-                    "author": book.author,
-                    "published_date": book.published_date,
-                    "isbn": book.isbn,
-                    "pages": book.pages,
-                    "cover": book.cover,
-                    "language": book.language,
-                }
-                for book in books
-            ]
-        ),
-        200,
-    )
+    try:
+        books = Book.query.all()
+        return (
+            jsonify(
+                [
+                    {
+                        "id": book.id,
+                        "title": book.title,
+                        "author": book.author,
+                        "published_date": book.published_date,
+                        "isbn": book.isbn,
+                        "pages": book.pages,
+                        "cover": book.cover,
+                        "language": book.language,
+                    }
+                    for book in books
+                ]
+            ),
+            200,
+        )
+    except Exception as e:
+        # Log the error to the console
+        print(f"Error retrieving books: {e}")
+        return jsonify({"error": "An error occurred while retrieving books"}), 500
 
 
 @books_bp.route("/<int:book_id>", methods=["GET"])
 def get_single_book(book_id):
-    """
-    Get a single book by ID
-    ---
-    tags:
-      - Books
-    parameters:
-      - in: path
-        name: book_id
-        required: true
-        schema:
-          type: integer
-        description: The ID of the book
-    responses:
-      200:
-        description: The book details
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Book'
-      404:
-        description: "Book not found"
-    """
     with Session(db.engine) as session:
         book = session.get(Book, book_id)
         if book is None:
@@ -171,34 +100,6 @@ def get_single_book(book_id):
 
 @books_bp.route("/<int:book_id>", methods=["PUT"])
 def update_book(book_id):
-    """
-    Update a book
-    ---
-    tags:
-      - Books
-    parameters:
-      - in: path
-        name: book_id
-        required: true
-        schema:
-          type: integer
-        description: The ID of the book to update
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Book'
-    responses:
-      200:
-        description: Book updated successfully
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Book'
-      404:
-        description: "Book not found"
-    """
     with Session(db.engine) as session:
         book = session.get(Book, book_id)
         if book is None:
@@ -235,24 +136,6 @@ def update_book(book_id):
 
 @books_bp.route("/<int:book_id>", methods=["DELETE"])
 def delete_book(book_id):
-    """
-    Delete a book
-    ---
-    tags:
-      - Books
-    parameters:
-      - in: path
-        name: book_id
-        required: true
-        schema:
-          type: integer
-        description: The ID of the book to delete
-    responses:
-      204:
-        description: Book deleted successfully
-      404:
-        description: "Book not found"
-    """
     with Session(db.engine) as session:
         book = session.get(Book, book_id)
         if book is None:
@@ -267,28 +150,6 @@ def delete_book(book_id):
 @books_bp.route("/<int:book_id>/borrow", methods=["POST"])
 @jwt_required()
 def borrow_book(book_id):
-    """
-    Borrow a book
-    ---
-    tags:
-      - Books
-    security:
-      - BearerAuth: []
-    parameters:
-      - in: path
-        name: book_id
-        required: true
-        schema:
-          type: integer
-        description: The ID of the book to borrow
-    responses:
-      200:
-        description: Book borrowed successfully
-      404:
-        description: "Book not found"
-      400:
-        description: "Book is already borrowed"
-    """
     current_user_id = get_jwt_identity()
 
     with Session(db.engine) as session:
@@ -323,28 +184,6 @@ def borrow_book(book_id):
 @books_bp.route("/<int:book_id>/return", methods=["POST"])
 @jwt_required()
 def return_book(book_id):
-    """
-    Return a borrowed book
-    ---
-    tags:
-      - Books
-    security:
-      - BearerAuth: []
-    parameters:
-      - in: path
-        name: book_id
-        required: true
-        schema:
-          type: integer
-        description: The ID of the book to return
-    responses:
-      200:
-        description: Book returned successfully
-      404:
-        description: "Book not found"
-      400:
-        description: "Book is not currently borrowed"
-    """
     current_user_id = get_jwt_identity()
 
     with Session(db.engine) as session:
