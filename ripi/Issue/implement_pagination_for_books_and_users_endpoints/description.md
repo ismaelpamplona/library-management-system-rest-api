@@ -1,7 +1,7 @@
 # implement_pagination_for_books_and_users_endpoints (Issue)
 
 - [ ] Set up pagination for the `/books` endpoint:
-  - [x] Write a failing test for pagination in the `/books` endpoint.
+  - [ ] Write a failing test for pagination in the `/books` endpoint.
   - [ ] Implement the pagination logic using query parameters (e.g., `page` and `per_page`).
   - [ ] Make the test pass and ensure pagination works correctly.
 - [ ] Set up pagination for the `/admin/users` endpoint:
